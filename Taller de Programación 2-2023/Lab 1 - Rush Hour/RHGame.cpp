@@ -108,6 +108,8 @@ void RHGame::readFile(string carsFile,string wallsFile,StateRH* initial) {
     } 
 
     this->wallsCount = numberWalls;
+    initial->setRhBoard(makeRhBoard(initial));
+    initial->setHeurValue(initial->makeHeurValue());
 }
 
 /*
@@ -368,13 +370,15 @@ StateRH* RHGame::operate2(StateRH* s,int carPos,int step) {
 }
 
 StateRH* RHGame::solver(StateRH* initial) {
-    Stack toVisit(10);
-    Stack visited(10);
+    Stack toVisit(1);
+    Stack visited(1);
     toVisit.push(initial);
     while (!toVisit.isEmpty()) {
         StateRH* actual = toVisit.pop();
         visited.push(actual);
         if (actual->isSolved()) {
+            cout << "STACK VISITADOS: " << visited.size << endl;
+            cout << "STACK POR VISITAR: " << toVisit.size << endl;
             return actual;
         }
         Car** cars = actual->getCars();
@@ -384,7 +388,9 @@ StateRH* RHGame::solver(StateRH* initial) {
                 StateRH* newState = operate(actual,i,j);
                 if (newState != nullptr && !toVisit.contains(newState)
                 && !visited.contains(newState)) {
+                    newState->setHeurValue(newState->makeHeurValue());
                     toVisit.push(newState);
+                    toVisit.quickSort(toVisit.stack,0,toVisit.size-1);
                 }
             }
         }

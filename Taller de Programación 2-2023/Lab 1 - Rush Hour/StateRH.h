@@ -11,6 +11,7 @@ class StateRH {
         ~StateRH();
         // Métodos
         // Getters
+        int getHeurValue();
         Car** getCars();
         int getCarsCount();
         char getRedCarSymbol();
@@ -18,6 +19,7 @@ class StateRH {
         StateRH* getFather();
         char** getBoard();
         // Setters
+        void setHeurValue(int heurValue);
         void setCarsCount(int carsCount);
         void setCars(Car** cars);
         void setRedCarSymbol(char symbol);
@@ -30,8 +32,10 @@ class StateRH {
         StateRH* copyState();
         bool isSolved();
         bool isEqualBoard(char** board);
+        int makeHeurValue();
     private:
         // Atributos
+        int heurValue;
         int carsCount;
         char redCarSymbol;
         string move;

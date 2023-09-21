@@ -6,6 +6,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 StateRH::StateRH() {
+    this->heurValue = 0;
     this->carsCount = 0;
     this->cars = new Car*[18];
     this->redCarSymbol = '0';
@@ -36,6 +37,10 @@ StateRH::~StateRH() {
 // Getters
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+int StateRH::getHeurValue() {
+    return this->heurValue;
+}
+
 Car** StateRH::getCars() {
     return this->cars;
 }
@@ -62,6 +67,10 @@ StateRH* StateRH::getFather() {
 }
 // Setters
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+void StateRH::setHeurValue(int heurValue) {
+    this->heurValue = heurValue; 
+}
 
 void StateRH::setCarsCount(int carsCount) {
     this->carsCount = carsCount;
@@ -101,6 +110,7 @@ void StateRH::printRhBoard() {
 
 StateRH* StateRH::copyState() {
     StateRH* newState = new StateRH();
+    newState->setHeurValue(this->heurValue);
     newState->setRedCarSymbol(this->redCarSymbol);
     newState->setCarsCount(this->carsCount);
     Car** cars = newState->getCars();
@@ -127,7 +137,6 @@ bool StateRH::isSolved() {
     return false;
 }
 
-
 bool StateRH::isEqualBoard(char** board) {
     for (int i = 0;i < 6;i++) {
         for (int j = 0;j < 6;j++) {
@@ -144,4 +153,21 @@ void StateRH::printMoves() {
         this->father->printMoves();
     }
     cout << this->move << endl;
+}
+
+int StateRH::makeHeurValue() {
+    int heurValue = 0;
+    int y = 0;
+    for (int i = 0;i < this->carsCount;i++) {
+        if (this->cars[i]->getSymbol() == this->redCarSymbol) {
+            int y = this->cars[i]->getY();
+            for (int j = y + 1;j < 6;j++) {
+                if (this->rhBoard[2][j] != '0' && this->rhBoard[2][j] != this->redCarSymbol) {
+                    heurValue++;
+                }
+            }
+            return heurValue;
+        }
+    }
+    return heurValue;
 }
