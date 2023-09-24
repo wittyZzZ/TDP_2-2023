@@ -32,14 +32,32 @@ RHGame::~RHGame() {
 // Getters
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+/*
+getCarsCount
+Descripción: Método que retorna el número de Cars del RHGame
+Entrada: void
+Salida: El número de Cars (int)
+*/
 int RHGame::getCarsCount() {
     return this->carsCount;
 }
 
+/*
+getWallsCount
+Descripción: Método que retorna el número de paredes del RHGame
+Entrada: void
+Salida: El número de paredes (int)
+*/
 int RHGame::getWallsCount() {
     return this->wallsCount;
 }
 
+/*
+getBoard
+Descripción: Método que retorna el tablero de juego del RHGame
+Entrada: void
+Salida: El tablero de juego (char**)
+*/
 char** RHGame::getBoard() {
     return this->board;
 }
@@ -47,14 +65,32 @@ char** RHGame::getBoard() {
 // Setters
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+/*
+setCarsCount
+Descripción: Método que modifica el número de Cars del RHGame
+Entrada: Nuevo número de Cars (int)
+Salida: void
+*/
 void RHGame::setCarsCount(int carsCount) {
     this->carsCount = carsCount;
 }
 
+/*
+setWallsCount
+Descripción: Método que modifica el número de paredes del RHGame
+Entrada: Nuevo número de paredes (int)
+Salida: void
+*/
 void RHGame::setWallsCount(int wallsCount) {
     this->wallsCount = wallsCount;
 }
 
+/*
+setBoard
+Descripción: Método que modifica el tablero de juego del RHGame
+Entrada: Nuevo tablero de juego (char**)
+Salida: void
+*/
 void RHGame::setBoard(char** board) {
     this->board = board;
 }
@@ -63,10 +99,21 @@ void RHGame::setBoard(char** board) {
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 /*
+readFile
+Descripción: Método que abre, lee y guarda los datos de los archivos dentro de un StateRH*
 Entrada: Nombre de Archivo de Autos (string) X Nombre de Archivo de Paredes (string) X Puntero a un StateRH (StateRH*) 
 Salida: void
-Descripción: Abre, lee y guarda los datos de los archivos dentro de un StateRH
 */
+
+// ARREGLAR ENTRADA DE PAREDES
+// ARREGLAR ENTRADA DE PAREDES
+// ARREGLAR ENTRADA DE PAREDES
+// ARREGLAR ENTRADA DE PAREDES
+// ARREGLAR ENTRADA DE PAREDES
+// ARREGLAR ENTRADA DE PAREDES
+// ARREGLAR ENTRADA DE PAREDES
+// ARREGLAR ENTRADA DE PAREDES
+
 void RHGame::readFile(string carsFile,string wallsFile,StateRH* initial) {
     int x, y, largo, dir;
     ifstream file(carsFile); // es un stream de "FileInput" desde un archivo. 
@@ -113,9 +160,10 @@ void RHGame::readFile(string carsFile,string wallsFile,StateRH* initial) {
 }
 
 /*
-Entrada: Nada 
+printBoard
+Descripción: Método que imprime el tablero de juego del RHGame
+Entrada: void
 Salida: void
-Descripción: 
 */
 void RHGame::printBoard() {
     for (int i = 0;i < 6;i++) {
@@ -127,9 +175,10 @@ void RHGame::printBoard() {
 }
 
 /*
-Entrada: Nada 
-Salida: void
-Descripción: 
+printBoard
+Descripción: Método que genera un tablero de juego según los datos de un StateRH
+Entrada: StateRH*
+Salida: El tablero de juego (char**)
 */
 char** RHGame::makeRhBoard(StateRH* s) {
     Car** cars = s->getCars();
@@ -137,7 +186,7 @@ char** RHGame::makeRhBoard(StateRH* s) {
     for (int i = 0;i < 6;i++) {
         board[i] = new char[6];
         for (int j = 0;j < 6;j++) {
-            board[i][j] = this->board[i][j];
+            board[i][j] = this->board[i][j]; // Se copia el tablero de RHGame al de StateRH por si se guardaron paredes en el de RHGame
         }
     }
     for (int i = 0;i < this->carsCount;i++) {
@@ -159,24 +208,11 @@ char** RHGame::makeRhBoard(StateRH* s) {
 }
 
 /*
-Entrada: Nada 
-Salida: void
-Descripción: 
+operate
+Descripción: Método que genera un estado (StateRH) a partir de otro, haciendo una operación con uno de sus Cars
+Entrada: StateRH* X Posición del Car (int) X Posición del movimiento (int)
+Salida: Nuevo estado (StateRH*)
 */
-
-/*
-
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 N N N 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-
-Ultima posicion del auto = y + largo - 1
-
-*/
-
 StateRH* RHGame::operate(StateRH* s,int carPos,int stepPos) {
     StateRH* newState = s->copyState();
     char** tBoard = newState->getBoard();
@@ -274,6 +310,13 @@ StateRH* RHGame::operate(StateRH* s,int carPos,int stepPos) {
     }
 }
 
+/*
+operate2
+Descripción: Método que genera un estado (StateRH) a partir de otro, haciendo una operación con uno de sus Cars.
+Realiza lo mismo que "operate" pero este recibe directamente el valor del movimiento que se quiere realizar y no el indice de donde esta el mismo
+Entrada: StateRH* X Posición del Car (int) X Valor del movimiento (int)
+Salida: Nuevo estado (StateRH*)
+*/
 StateRH* RHGame::operate2(StateRH* s,int carPos,int step) {
     StateRH* newState = s->copyState();
     char** tBoard = newState->getBoard();
@@ -369,6 +412,12 @@ StateRH* RHGame::operate2(StateRH* s,int carPos,int step) {
     }
 }
 
+/*
+solver
+Descripción: Método que resuelve y entrega el estado final (StateRH) del juego ya resuelto (usa el Algoritmo A* y una Heuristica)
+Entrada: El estado inicial del juego (StateRH*)
+Salida: El estado final resuelto (StateRH*)
+*/ 
 StateRH* RHGame::solver(StateRH* initial) {
     Stack toVisit(1);
     Stack visited(1);

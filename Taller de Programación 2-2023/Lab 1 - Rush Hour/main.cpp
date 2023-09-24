@@ -4,8 +4,6 @@ using namespace std;
 
 int main() {
 
-    
-
     RHGame* game = new RHGame();
     StateRH* initial = new StateRH();
 
@@ -18,9 +16,10 @@ int main() {
         std::cout << std::endl;
     }
 
+    game->printBoard();
     initial->printRhBoard();
 
-    /*
+/*
    Stack old(1);
 
    StateRH* s1 = new StateRH();
@@ -74,8 +73,5 @@ int main() {
         cout << "error" << endl;
     }
 
-
-    
-    
     return 0;
 }

@@ -9,7 +9,6 @@ class Car {
         Car(int x,int y,int dir,int largo,char symbol);
         // Destructor
         ~Car();
-
         // Métodos
         // Getters
         int getDir();
@@ -34,5 +33,4 @@ class Car {
         char symbol;
         int *possibleSteps;
         int stepCount;
-        //int *takenSteps
 };
