@@ -10,7 +10,5 @@ StateRH.o: Car.o StateRH.cpp StateRH.h
 Car.o: Car.cpp Car.h 
 	g++ ${FLAGS} -c Car.cpp
 clean:
-	del *.o
-	del *.exe
-# linux
-# rm -rf .*o main
+
+	rm -rf *.o main

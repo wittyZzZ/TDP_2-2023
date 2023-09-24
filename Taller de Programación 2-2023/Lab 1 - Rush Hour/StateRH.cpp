@@ -27,8 +27,8 @@ StateRH::~StateRH() {
         delete[] this->rhBoard[i];
     }
     delete[] this->rhBoard;
-    for (int i;i < this->carsCount;i++) {
-        this->cars[i]->~Car();
+    for (int i = 0;i < this->carsCount;i++) {
+        delete this->cars[i];
     }
     delete[] this->cars;
     delete this->father;

@@ -4,6 +4,7 @@ using namespace std;
 
 int main() {
 
+    /*
     RHGame* game = new RHGame();
     StateRH* initial = new StateRH();
 
@@ -27,6 +28,20 @@ int main() {
     } else {
         cout << "error" << endl;
     }
+    
+    */
+
+   RHGame* juego = new RHGame();
+   StateRH* xd = new StateRH();
+   juego->readFile("game1.txt","walls1.txt",xd);
+
+   xd->printRhBoard();
+
+   delete xd;
+   delete juego;
+
+
+
 
     return 0;
 }

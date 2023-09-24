@@ -120,20 +120,18 @@ void RHGame::readFile(string carsFile,string wallsFile,StateRH* initial) {
     string line; // es un objeto que representa un arreglo de char que es auto ajustable.
     int count = 0; // cuenta la cantidad de autos (uno por linea)
     char symbols[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R'};
-    Car** newCars = new Car*[18];
+    Car** cars = initial->getCars();
     while (getline(file, line)) { // lee una linea del archivo y la guarda en "line". Si no hay mas lineas, sale del while(retorna false).
         stringstream charStream; // es un stream de "StringInput" desde un string.
         charStream << line; // guarda el string en el stream
         charStream >> x >> y >> largo >> dir; // lee los datos del stream y los guarda en las variables. Notar que como es un input stream se usa la operacion inversa a <<, que es >>. Automaticamente lee el tipo de dato de cada variable.
-        Car* newCar = new Car(x,y,dir,largo,symbols[count]);
         if (x == 2 && dir == HORIZONTAL) {
             initial->setRedCarSymbol(symbols[count]);
         }
-        newCars[count] = newCar;
+        cars[count] = new Car(x,y,dir,largo,symbols[count]);
         count++;
     }
 
-    initial->setCars(newCars);
     initial->setCarsCount(count);
 
     this->carsCount = count;
@@ -155,7 +153,7 @@ void RHGame::readFile(string carsFile,string wallsFile,StateRH* initial) {
     } 
 
     this->wallsCount = numberWalls;
-    initial->setRhBoard(makeRhBoard(initial));
+    makeRhBoard(initial);
     initial->setHeurValue(initial->makeHeurValue());
 }
 
@@ -178,13 +176,12 @@ void RHGame::printBoard() {
 printBoard
 Descripción: Método que genera un tablero de juego según los datos de un StateRH
 Entrada: StateRH*
-Salida: El tablero de juego (char**)
+Salida: void
 */
-char** RHGame::makeRhBoard(StateRH* s) {
+void RHGame::makeRhBoard(StateRH* s) {
     Car** cars = s->getCars();
-    char** board = new char*[6];
+    char** board = s->getBoard();
     for (int i = 0;i < 6;i++) {
-        board[i] = new char[6];
         for (int j = 0;j < 6;j++) {
             board[i][j] = this->board[i][j]; // Se copia el tablero de RHGame al de StateRH por si se guardaron paredes en el de RHGame
         }
@@ -204,7 +201,6 @@ char** RHGame::makeRhBoard(StateRH* s) {
             }
         }
     }
-    return board;
 }
 
 /*

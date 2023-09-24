@@ -23,7 +23,7 @@ class RHGame {
         // Otros Métodos
         void readFile(string carsFile,string wallsFile,StateRH* initial);
         void printBoard();
-        char** makeRhBoard(StateRH* s);
+        void makeRhBoard(StateRH* s);
         StateRH* operate(StateRH* s,int carPos,int stepPos);
         StateRH* operate2(StateRH* s,int carPos,int steps);
         StateRH* solver(StateRH* initial);
