@@ -4,7 +4,6 @@ using namespace std;
 
 int main() {
 
-    /*
     RHGame* game = new RHGame();
     StateRH* initial = new StateRH();
 
@@ -21,27 +20,9 @@ int main() {
     initial->printRhBoard();
 
     StateRH* resolution = game->solver(initial);
-
-    if (resolution != nullptr) {
-        resolution->printRhBoard();
-        resolution->printMoves();
-    } else {
-        cout << "error" << endl;
-    }
+                    
+    delete game;
+    delete resolution;
     
-    */
-
-   RHGame* juego = new RHGame();
-   StateRH* xd = new StateRH();
-   juego->readFile("game1.txt","walls1.txt",xd);
-
-   xd->printRhBoard();
-
-   delete xd;
-   delete juego;
-
-
-
-
     return 0;
 }

@@ -210,9 +210,8 @@ Entrada: StateRH* X Posición del Car (int) X Posición del movimiento (int)
 Salida: Nuevo estado (StateRH*)
 */
 StateRH* RHGame::operate(StateRH* s,int carPos,int stepPos) {
-    StateRH* newState = s->copyState();
-    char** tBoard = newState->getBoard();
-    Car** cars = newState->getCars();    
+    char** tBoard = s->getBoard();
+    Car** cars = s->getCars();    
     Car* tCar = cars[carPos];
     // SE EXTRAEN LOS DATOS DEL AUTO OBJETIVO
     int x = tCar->getX();
@@ -240,15 +239,19 @@ StateRH* RHGame::operate(StateRH* s,int carPos,int stepPos) {
                 }
             }
             // SE PUEDE HACER LA OPERACION
+            StateRH* newState = s->copyState();
+            char** nsBoard = newState->getBoard();
+            Car** nsCars = newState->getCars();
+            Car* nstCar = nsCars[carPos];
             // ELIMINAR AUTO DE CELDAS ORIGINALES
             for (int i = y;i < y + largo;i++) {
-                tBoard[x][i] = '0';
+                nsBoard[x][i] = '0';
             }
             // CREAR AUTO EN NUEVAS CELDAS
             for (int i = y + step;i < y + step + largo;i++) {
-                tBoard[x][i] = symbol; 
+                nsBoard[x][i] = symbol; 
             }
-            tCar->setY(y + step);
+            nstCar->setY(y + step);
             newState->setFather(s);
             string move = "Auto ";
             move = move + symbol + ": ";
@@ -280,15 +283,19 @@ StateRH* RHGame::operate(StateRH* s,int carPos,int stepPos) {
                 }
             }
             // SE PUEDE HACER LA OPERACION
+            StateRH* newState = s->copyState();
+            char** nsBoard = newState->getBoard();
+            Car** nsCars = newState->getCars();
+            Car* nstCar = nsCars[carPos];
             // ELIMINAR AUTO DE CELDAS ORIGINALES
             for (int i = x;i < x + largo;i++) {
-                tBoard[i][y] = '0';
+                nsBoard[i][y] = '0';
             }
             // CREAR AUTO EN NUEVAS CELDAS
             for (int i = x + step;i < x + step + largo;i++) {
-                tBoard[i][y] = symbol; 
+                nsBoard[i][y] = symbol; 
             }
-            tCar->setX(x + step);
+            nstCar->setX(x + step);
             newState->setFather(s);
             string move = "Auto ";
             move = move + symbol + ": ";
@@ -314,9 +321,8 @@ Entrada: StateRH* X Posición del Car (int) X Valor del movimiento (int)
 Salida: Nuevo estado (StateRH*)
 */
 StateRH* RHGame::operate2(StateRH* s,int carPos,int step) {
-    StateRH* newState = s->copyState();
-    char** tBoard = newState->getBoard();
-    Car** cars = newState->getCars();    
+    char** tBoard = s->getBoard();
+    Car** cars = s->getCars();    
     Car* tCar = cars[carPos];
     // SE EXTRAEN LOS DATOS DEL AUTO OBJETIVO
     int x = tCar->getX();
@@ -342,15 +348,19 @@ StateRH* RHGame::operate2(StateRH* s,int carPos,int step) {
                 }
             }
             // SE PUEDE HACER LA OPERACION
+            StateRH* newState = s->copyState();
+            char** nsBoard = newState->getBoard();
+            Car** nsCars = newState->getCars();
+            Car* nstCar = nsCars[carPos];
             // ELIMINAR AUTO DE CELDAS ORIGINALES
             for (int i = y;i < y + largo;i++) {
-                tBoard[x][i] = '0';
+                nsBoard[x][i] = '0';
             }
             // CREAR AUTO EN NUEVAS CELDAS
             for (int i = y + step;i < y + step + largo;i++) {
-                tBoard[x][i] = symbol; 
+                nsBoard[x][i] = symbol; 
             }
-            tCar->setY(y + step);
+            nstCar->setY(y + step);
             newState->setFather(s);
             string move = "Auto ";
             move = move + symbol + ": ";
@@ -382,15 +392,19 @@ StateRH* RHGame::operate2(StateRH* s,int carPos,int step) {
                 }
             }
             // SE PUEDE HACER LA OPERACION
+            StateRH* newState = s->copyState();
+            char** nsBoard = newState->getBoard();
+            Car** nsCars = newState->getCars();
+            Car* nstCar = nsCars[carPos];
             // ELIMINAR AUTO DE CELDAS ORIGINALES
             for (int i = x;i < x + largo;i++) {
-                tBoard[i][y] = '0';
+                nsBoard[i][y] = '0';
             }
             // CREAR AUTO EN NUEVAS CELDAS
             for (int i = x + step;i < x + step + largo;i++) {
-                tBoard[i][y] = symbol; 
+                nsBoard[i][y] = symbol; 
             }
-            tCar->setX(x + step);
+            nstCar->setX(x + step);
             newState->setFather(s);
             string move = "Auto ";
             move = move + symbol + ": ";
@@ -422,8 +436,15 @@ StateRH* RHGame::solver(StateRH* initial) {
         StateRH* actual = toVisit.pop();
         visited.push(actual);
         if (actual->isSolved()) {
-            cout << "STACK VISITADOS: " << visited.size << endl;
-            cout << "STACK POR VISITAR: " << toVisit.size << endl;
+            cout << "STACK VISITADOS: " << visited.top+1 << endl;
+            cout << "STACK POR VISITAR: " << toVisit.top+1 << endl;
+            actual->printMoves();
+            for (int i = 0;i < toVisit.top+1;i++) {
+                delete toVisit.stack[i];
+            }
+            for (int j = 0;j < visited.top;j++) {
+                delete visited.stack[j];
+            }
             return actual;
         }
         Car** cars = actual->getCars();
@@ -435,7 +456,9 @@ StateRH* RHGame::solver(StateRH* initial) {
                 && !visited.contains(newState)) {
                     newState->setHeurValue(newState->makeHeurValue());
                     toVisit.push(newState);
-                    toVisit.quickSort(toVisit.stack,0,toVisit.size-1);
+                    toVisit.quickSort(toVisit.stack,0,toVisit.top);
+                } else {
+                    delete newState;
                 }
             }
         }
