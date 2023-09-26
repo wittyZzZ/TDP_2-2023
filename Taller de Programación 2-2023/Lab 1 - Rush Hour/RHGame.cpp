@@ -422,29 +422,32 @@ StateRH* RHGame::operate2(StateRH* s,int carPos,int step) {
     }
 }
 
+
 /*
 solver
 Descripción: Método que resuelve y entrega el estado final (StateRH) del juego ya resuelto (usa el Algoritmo A* y una Heuristica)
 Entrada: El estado inicial del juego (StateRH*)
 Salida: El estado final resuelto (StateRH*)
-*/ 
+*/
 StateRH* RHGame::solver(StateRH* initial) {
-    Stack toVisit(1);
-    Stack visited(1);
+    Heap toVisit(1);
+    Heap visited(1);
     toVisit.push(initial);
     while (!toVisit.isEmpty()) {
         StateRH* actual = toVisit.pop();
         visited.push(actual);
         if (actual->isSolved()) {
-            cout << "STACK VISITADOS: " << visited.top+1 << endl;
-            cout << "STACK POR VISITAR: " << toVisit.top+1 << endl;
+            cout << "STACK VISITADOS: " << visited.size << endl;
+            cout << "STACK POR VISITAR: " << toVisit.size << endl;
             actual->printMoves();
-            for (int i = 0;i < toVisit.top+1;i++) {
-                delete toVisit.stack[i];
+            /*
+            for (int i = 0;i < toVisit.size;i++) {
+                delete toVisit.heap[i];
             }
-            for (int j = 0;j < visited.top;j++) {
-                delete visited.stack[j];
+            for (int j = 0;j < visited.size;j++) {
+                delete visited.heap[j];
             }
+            */
             return actual;
         }
         Car** cars = actual->getCars();
@@ -456,7 +459,6 @@ StateRH* RHGame::solver(StateRH* initial) {
                 && !visited.contains(newState)) {
                     newState->setHeurValue(newState->makeHeurValue());
                     toVisit.push(newState);
-                    toVisit.quickSort(toVisit.stack,0,toVisit.top);
                 } else {
                     delete newState;
                 }
@@ -465,3 +467,5 @@ StateRH* RHGame::solver(StateRH* initial) {
     }
     return nullptr;
 }
+
+ 

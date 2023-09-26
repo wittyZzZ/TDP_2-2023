@@ -24,5 +24,6 @@ int main() {
     delete game;
     delete resolution;
     
+
     return 0;
 }

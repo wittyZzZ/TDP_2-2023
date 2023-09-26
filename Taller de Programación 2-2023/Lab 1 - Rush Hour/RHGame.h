@@ -1,5 +1,6 @@
 #include <iostream>
-#include "Stack.h"
+//#include "Stack.h"
+#include "Heap.h"
 #include <fstream> // para trabajar con archivos
 #include <string> // para tener objetos de arreglos de char de largo autoincrementable
 #include <sstream> // para trabajar con streams de strings
