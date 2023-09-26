@@ -12,9 +12,11 @@ Heap::Heap(int capacity) {
 
 // Destructor
 Heap::~Heap() {
+    /*
     for (int i=0; i < this->size; i++) {
         delete this->heap[i];
     }
+    */
     delete[] this->heap;
 }
 

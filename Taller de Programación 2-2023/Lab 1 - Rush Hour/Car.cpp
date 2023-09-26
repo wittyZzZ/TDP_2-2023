@@ -12,22 +12,10 @@ Car::Car(int x,int y,int dir,int largo,char symbol) {
     this->symbol = symbol;
     if (largo == 3) {
         this->stepCount = 6;
-        this->possibleSteps = new int[6];
-        int j = -3;
-        for (int i = 0;i < 6;i++) {
-            if (j == 0) {j++;}
-            this->possibleSteps[i] = j;
-            j++;
-        }
+        this->possibleSteps = new int[6]{-3,-2,-1,1,2,3};
     } else {
         this->stepCount = 8;
-        this->possibleSteps = new int[8];
-        int j = -4;
-        for (int i = 0;i < 8;i++) {
-            if (j == 0) {j++;}
-            this->possibleSteps[i] = j;
-            j++;
-        }
+        this->possibleSteps = new int[8]{-4,-3,-2,-1,1,2,3,4};
     }
 }
 

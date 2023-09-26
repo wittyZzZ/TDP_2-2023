@@ -16,7 +16,6 @@ int main() {
         std::cout << std::endl;
     }
 
-    game->printBoard();
     initial->printRhBoard();
 
     StateRH* resolution = game->solver(initial);
@@ -24,6 +23,5 @@ int main() {
     delete game;
     delete resolution;
     
-
     return 0;
 }

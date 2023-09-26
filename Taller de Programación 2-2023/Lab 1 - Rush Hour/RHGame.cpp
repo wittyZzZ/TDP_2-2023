@@ -439,16 +439,15 @@ StateRH* RHGame::solver(StateRH* initial) {
         if (actual->isSolved()) {
             cout << "STACK VISITADOS: " << visited.size << endl;
             cout << "STACK POR VISITAR: " << toVisit.size << endl;
-            actual->printMoves();
-            /*
+            StateRH* retorno = actual->copyState();
+            retorno->printMoves();
             for (int i = 0;i < toVisit.size;i++) {
                 delete toVisit.heap[i];
             }
             for (int j = 0;j < visited.size;j++) {
                 delete visited.heap[j];
             }
-            */
-            return actual;
+            return retorno;
         }
         Car** cars = actual->getCars();
         for (int i = 0;i < actual->getCarsCount();i++) {

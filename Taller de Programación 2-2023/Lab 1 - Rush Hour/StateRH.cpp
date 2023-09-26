@@ -211,6 +211,8 @@ StateRH* StateRH::copyState() {
     newState->setHeurValue(this->heurValue);
     newState->setRedCarSymbol(this->redCarSymbol);
     newState->setCarsCount(this->carsCount);
+    newState->setMove(this->move);
+    newState->setFather(this->father);
     Car** cars = newState->getCars();
     for (int i = 0;i < this->carsCount;i++) {
         cars[i] = this->cars[i]->copyCar();
