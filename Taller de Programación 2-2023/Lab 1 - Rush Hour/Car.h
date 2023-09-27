@@ -1,4 +1,5 @@
 #include <iostream>
+using namespace std;
 
 #define HORIZONTAL 0
 #define VERTICAL 1

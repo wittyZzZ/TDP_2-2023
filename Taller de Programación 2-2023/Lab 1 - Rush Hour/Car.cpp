@@ -135,28 +135,11 @@ Salida: void
 */
 void Car::print() {
     if (this->dir == 0) {
-        std::cout << "Auto " << this->symbol <<": [" << this->x << "," << this->y << "] ; HORIZONTAL ; Largo: " << this->largo << " ; ";
-        if (this->largo == 3) {
-            for (int i = 0;i < 6;i++) {
-                std::cout << this->possibleSteps[i] << " - ";
-            }
-        } else {
-            for (int i = 0;i < 8;i++) {
-                std::cout << this->possibleSteps[i] << " - ";
-            }
-        }
+        std::cout << "Auto " << this->symbol <<": [" << this->x << "," << this->y << "] ; HORIZONTAL ; Largo: " << this->largo;
     } else {
-        std::cout << "Auto " << this->symbol <<": [" << this->x << "," << this->y << "] ; VERTICAL ; Largo: " << this->largo << " ; ";
-        if (this->largo == 3) {
-            for (int i = 0;i < 6;i++) {
-                std::cout << this->possibleSteps[i] << " - ";
-            }
-        } else {
-            for (int i = 0;i < 8;i++) {
-                std::cout << this->possibleSteps[i] << " - ";
-            }
-        }
-    } 
+        std::cout << "Auto " << this->symbol <<": [" << this->x << "," << this->y << "] ; VERTICAL ; Largo: " << this->largo;
+    }
+    std::cout << std::endl;
 }
 
 /*

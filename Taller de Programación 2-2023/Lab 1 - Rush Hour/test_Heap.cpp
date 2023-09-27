@@ -14,7 +14,6 @@ int main() {
     s3->setHeurValue(3);
     s4->setHeurValue(20);
 
-
     heap->push(s0);
     heap->push(s1);
     heap->push(s2);
@@ -23,7 +22,15 @@ int main() {
 
     while (!heap->isEmpty()) {
         StateRH* state = heap->pop();
-        cout << "State: " << state->getHeurValue() << endl;
+        cout << "State Heuristic Value: " << state->getHeurValue() << endl;
     }
 
+    delete s0;
+    delete s1;
+    delete s2;
+    delete s3;
+    delete s4;
+    delete heap;
+    
+    return 0;
 }

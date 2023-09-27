@@ -21,7 +21,7 @@ class RHGame {
         void setWallsCount(int wallsCount);
         void setBoard(char** board);
         // Otros Métodos
-        void readFile(string carsFile,string wallsFile,StateRH* initial);
+        bool readFile(string carsFile,string wallsFile,StateRH* initial);
         void printBoard();
         void makeRhBoard(StateRH* s);
         StateRH* operate(StateRH* s,int carPos,int stepPos);

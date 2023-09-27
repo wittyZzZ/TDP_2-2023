@@ -105,56 +105,54 @@ Entrada: Nombre de Archivo de Autos (string) X Nombre de Archivo de Paredes (str
 Salida: void
 */
 
-// ARREGLAR ENTRADA DE PAREDES
-// ARREGLAR ENTRADA DE PAREDES
-// ARREGLAR ENTRADA DE PAREDES
-// ARREGLAR ENTRADA DE PAREDES
-// ARREGLAR ENTRADA DE PAREDES
-// ARREGLAR ENTRADA DE PAREDES
-// ARREGLAR ENTRADA DE PAREDES
-// ARREGLAR ENTRADA DE PAREDES
-
-void RHGame::readFile(string carsFile,string wallsFile,StateRH* initial) {
+bool RHGame::readFile(string carsFile,string wallsFile,StateRH* initial) {
     int x, y, largo, dir;
     ifstream file(carsFile); // es un stream de "FileInput" desde un archivo. 
     string line; // es un objeto que representa un arreglo de char que es auto ajustable.
     int count = 0; // cuenta la cantidad de autos (uno por linea)
     char symbols[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R'};
     Car** cars = initial->getCars();
-    while (getline(file, line)) { // lee una linea del archivo y la guarda en "line". Si no hay mas lineas, sale del while(retorna false).
-        stringstream charStream; // es un stream de "StringInput" desde un string.
-        charStream << line; // guarda el string en el stream
-        charStream >> x >> y >> largo >> dir; // lee los datos del stream y los guarda en las variables. Notar que como es un input stream se usa la operacion inversa a <<, que es >>. Automaticamente lee el tipo de dato de cada variable.
-        if (x == 2 && dir == HORIZONTAL) {
-            initial->setRedCarSymbol(symbols[count]);
-        }
-        cars[count] = new Car(x,y,dir,largo,symbols[count]);
-        count++;
-    }
-
-    initial->setCarsCount(count);
-
-    this->carsCount = count;
-
-    file.close(); // cerramos el archivo
-
-    int numberWalls = 0;
-    file.open(wallsFile);
-
     if (file.is_open()) {
-        while (getline(file, line)) {
-            cout << line << endl;
-            stringstream charStream;
-            charStream << line;
-            charStream >> x >> y;
-            this->board[x][y] = '#'; // guardamos la pared en la matriz
-            numberWalls++;
+        while (getline(file, line)) { // lee una linea del archivo y la guarda en "line". Si no hay mas lineas, sale del while(retorna false).
+            stringstream charStream; // es un stream de "StringInput" desde un string.
+            charStream << line; // guarda el string en el stream
+            charStream >> x >> y >> largo >> dir; // lee los datos del stream y los guarda en las variables. Notar que como es un input stream se usa la operacion inversa a <<, que es >>. Automaticamente lee el tipo de dato de cada variable.
+            if (x == 2 && dir == HORIZONTAL) {
+                initial->setRedCarSymbol(symbols[count]);
+            }
+            cars[count] = new Car(x,y,dir,largo,symbols[count]);
+            count++;
         }
-    } 
 
-    this->wallsCount = numberWalls;
-    makeRhBoard(initial);
-    initial->setHeurValue(initial->makeHeurValue());
+        initial->setCarsCount(count);
+
+        this->carsCount = count;
+
+        file.close(); // cerramos el archivo
+
+        int numberWalls = 0;
+        file.open(wallsFile);
+
+        if (file.is_open()) {
+            while (getline(file, line)) {
+                stringstream charStream;
+                charStream << line;
+                charStream >> x >> y;
+                this->board[x][y] = '#'; // guardamos la pared en la matriz
+                numberWalls++;
+            }
+        } else {
+            cout << "No existe el archivo de paredes \"" << wallsFile << "\"" <<endl;
+        }
+
+        this->wallsCount = numberWalls;
+        makeRhBoard(initial);
+        initial->setHeurValue(initial->makeHeurValue());
+        return true;
+    } else {
+        cout << "No existe el archivo de juego \"" << carsFile << "\"" <<endl;
+        return false;
+    }
 }
 
 /*
@@ -437,10 +435,27 @@ StateRH* RHGame::solver(StateRH* initial) {
         StateRH* actual = toVisit.pop();
         visited.push(actual);
         if (actual->isSolved()) {
-            cout << "STACK VISITADOS: " << visited.size << endl;
-            cout << "STACK POR VISITAR: " << toVisit.size << endl;
             StateRH* retorno = actual->copyState();
+
+            int numMov = 0;
+            StateRH* father = retorno->getFather();
+
+            while (father != nullptr) {
+                numMov++;
+                father = father->getFather();
+            }
+
+            cout << "El juego fue resuelto en " << numMov << " movimientos:" << endl;
+            cout << endl;
+
             retorno->printMoves();
+
+            cout << endl;
+
+            cout << "ESTADOS VISITADOS: " << visited.size << endl;
+            cout << "ESTADOS POR VISITAR: " << toVisit.size << endl;
+
+            // Liberar estados
             for (int i = 0;i < toVisit.size;i++) {
                 delete toVisit.heap[i];
             }
