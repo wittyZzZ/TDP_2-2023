@@ -117,7 +117,7 @@ bool RHGame::readFile(string carsFile,string wallsFile,StateRH* initial) {
             stringstream charStream; // es un stream de "StringInput" desde un string.
             charStream << line; // guarda el string en el stream
             charStream >> x >> y >> largo >> dir; // lee los datos del stream y los guarda en las variables. Notar que como es un input stream se usa la operacion inversa a <<, que es >>. Automaticamente lee el tipo de dato de cada variable.
-            if (x == 2 && dir == HORIZONTAL) {
+            if (x == 2 && dir == HORIZONTAL && initial->getRedCarSymbol() == '0') {
                 initial->setRedCarSymbol(symbols[count]);
             }
             cars[count] = new Car(x,y,dir,largo,symbols[count]);
@@ -431,9 +431,11 @@ StateRH* RHGame::solver(StateRH* initial) {
     Heap toVisit(1);
     Heap visited(1);
     toVisit.push(initial);
+    // Mientras hayan estados por visitar
     while (!toVisit.isEmpty()) {
         StateRH* actual = toVisit.pop();
         visited.push(actual);
+        // Si el estado sacado esta resuelto
         if (actual->isSolved()) {
             StateRH* retorno = actual->copyState();
 
@@ -465,10 +467,14 @@ StateRH* RHGame::solver(StateRH* initial) {
             return retorno;
         }
         Car** cars = actual->getCars();
+        // Por cada auto del estado
         for (int i = 0;i < actual->getCarsCount();i++) {
             int* tSteps = cars[i]->getPossibleSteps();
+            // Por cada movimiento posible del auto
             for (int j = 0;j < cars[i]->getStepCount();j++) {
+                // Producir nuevos estados operando el estado sacado
                 StateRH* newState = operate(actual,i,j);
+                // Si el estado no esta visitado ni tampoco por visitar
                 if (newState != nullptr && !toVisit.contains(newState)
                 && !visited.contains(newState)) {
                     newState->setHeurValue(newState->makeHeurValue());
@@ -478,6 +484,14 @@ StateRH* RHGame::solver(StateRH* initial) {
                 }
             }
         }
+    }
+    // No se encontro ningun estado solucion
+    // Liberar estados
+    for (int i = 0;i < toVisit.size;i++) {
+        delete toVisit.heap[i];
+    }
+    for (int j = 0;j < visited.size;j++) {
+        delete visited.heap[j];
     }
     return nullptr;
 }

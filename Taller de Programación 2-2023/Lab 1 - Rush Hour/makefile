@@ -1,20 +1,20 @@
 all: main test_Heap test_StateRH test_Car test_RHGame
-FLAGS = -g
+FLAGS = -O2
 
 main: main.cpp RHGame.o Car.o StateRH.o Heap.o 
-	g++ ${FLAGS} RHGame.o Car.o StateRH.o Heap.o main.cpp -o main -O0
+	g++ ${FLAGS} RHGame.o Car.o StateRH.o Heap.o main.cpp -o main 
 
 test_RHGame: test_RHGame.cpp RHGame.o Car.o StateRH.o Heap.o 
-	g++ ${FLAGS} RHGame.o Car.o StateRH.o Heap.o test_RHGame.cpp -o test_RHGame -O0
+	g++ ${FLAGS} RHGame.o Car.o StateRH.o Heap.o test_RHGame.cpp -o test_RHGame
 
 test_Heap: test_Heap.cpp Heap.o Car.o StateRH.o
-	g++ ${FLAGS} Car.o StateRH.o Heap.o test_Heap.cpp -o test_Heap -O0
+	g++ ${FLAGS} Car.o StateRH.o Heap.o test_Heap.cpp -o test_Heap
 
 test_StateRH: test_StateRH.cpp StateRH.o Car.o 
-	g++ ${FLAGS} Car.o StateRH.o test_StateRH.cpp -o test_StateRH -O0
+	g++ ${FLAGS} Car.o StateRH.o test_StateRH.cpp -o test_StateRH
 
 test_Car: test_Car.cpp Car.o
-	g++ ${FLAGS} Car.o test_Car.cpp -o test_Car -O0
+	g++ ${FLAGS} Car.o test_Car.cpp -o test_Car
 
 RHGame.o: RHGame.cpp RHGame.h
 	g++ ${FLAGS} -c RHGame.cpp

@@ -9,6 +9,8 @@ int main() {
     int opcion;
     string inputString;
     string inputString2;
+    time_t start,end;
+    double timeTaken;
     
     cout<<endl;
     cout << "#########################################################" <<endl;
@@ -47,13 +49,24 @@ int main() {
             initial->printRhBoard();
             cout<<endl;
 
+            time(&start);
+
             StateRH* resolution = game->solver(initial);
 
-            cout<<endl;
-            cout<< "Tablero de juego final:"<<endl;
-            cout<<endl;
-            resolution->printRhBoard();
-                    
+            time(&end);
+
+            timeTaken = double(end-start);
+
+            if (resolution != nullptr) {
+                cout << "Tiempo de resolucion: " << timeTaken << endl;
+
+                cout<<endl;
+                cout<< "Tablero de juego final:"<<endl;
+                cout<<endl;
+                resolution->printRhBoard();
+            } else {
+                cout << "El puzzle no tiene solucion..." << endl;
+            }
             delete game;
             delete resolution;
         } else {
@@ -72,20 +85,17 @@ int main() {
 
         switch (opcion) {
         case 1:
-            cout<<endl;
             cout << "Usted selecciono \"Probar con otros archivos de entrada\"" <<endl;
             cout<<endl;
             break;
         case 2:
             salir = true;
-            cout<<endl;
             cout << "Usted selecciono \"Salir\"" <<endl;
             cout<<endl;
             cout<< "FIN DEL PROGRAMA..."<<endl;
             break;
         default:
             salir = true;
-            cout<<endl;
             cout << "Usted selecciono \"Salir\"" <<endl;
             cout<<endl;
             cout<< "FIN DEL PROGRAMA..."<<endl;
