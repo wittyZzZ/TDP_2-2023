@@ -1,5 +1,6 @@
 #include <iostream>
 #include "RHGame.h"
+#include "ctime"
 using namespace std;
 
 int main() {
