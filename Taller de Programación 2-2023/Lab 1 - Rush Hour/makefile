@@ -30,4 +30,3 @@ Car.o: Car.cpp Car.h
 
 clean:
 	rm -rf *.o main test_Heap test_StateRH test_Car test_RHGame
-
