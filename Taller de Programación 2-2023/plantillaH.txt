@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+
+class Clase {
+    public:
+        // Constructor
+        
+        // Destructor
+        
+        // Métodos
+        // Getters
+        
+        // Setters
+        
+        // Otros Métodos
+        
+    private:
+        // Atributos
+        
+};
