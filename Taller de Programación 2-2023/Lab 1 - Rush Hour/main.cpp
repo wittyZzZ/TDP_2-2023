@@ -1,6 +1,7 @@
 #include <iostream>
 #include "RHGame.h"
 #include "ctime"
+#include <iomanip>
 using namespace std;
 
 int main() {
@@ -56,10 +57,10 @@ int main() {
 
             time(&end);
 
-            timeTaken = double(end-start);
+            timeTaken = double(double(end)-double(start));
 
             if (resolution != nullptr) {
-                cout << "Tiempo de resolucion: " << timeTaken << endl;
+                cout << "Tiempo de resolucion: " << fixed << setprecision(2) << timeTaken << endl;
 
                 cout<<endl;
                 cout<< "Tablero de juego final:"<<endl;

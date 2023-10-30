@@ -1,17 +1,31 @@
 #include "Heap.h"
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// ######################################################################### CONSTRUCTOR ###############################################################################
+// ################################################################### CONSTRUCTOR & DESTRUCTOR ########################################################################
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+/*
+Heap (Constructor)
+Descripción: Método que crea un Heap dada una capacidad
+Entrada: Capacidad (int)
+Salida: void
+*/
 Heap::Heap(int capacity) {
     this->capacity = capacity;
     this->size = 0;
     this->heap = new Tienda*[capacity];
 }
 
-// Destructor
+/*
+~Heap (Destructor)
+Descripción: Método que elimina una instancia de Heap
+Entrada: void
+Salida: void
+*/
 Heap::~Heap() {
+    for (int i = 0;i < this->size;i++) {
+        delete this->heap[i];
+    }
     delete[] this->heap;
 }
 
@@ -95,6 +109,24 @@ Tienda* Heap::pop() {
 }
 
 /*
+Pop2
+Descripción: Método que expulsa una Tienda del Heap y la elimina
+Entrada: void
+Salida: void
+*/
+void Heap::pop2() {
+    if (isEmpty()) { // Ojo retorna nulo si esta vacio
+        return;
+    }
+    Tienda* tienda = this->heap[0]; // tomo la raiz
+    this->heap[0] = this->heap[this->size-1]; // pongo el ultimo en la raiz
+    this->size--; // reduzco el size
+    this->heapify(0); // burbujea hacia abajo intercambiando con el menor de los hijos
+    delete tienda;
+}
+
+
+/*
 Push
 Descripción: Método que agrega una Tienda al Heap
 Entrada: La Tienda a agregar (Tienda*)
@@ -128,4 +160,18 @@ bool Heap::contains(Tienda* tienda) {
         } 
     }
     return false;
+}
+
+/*
+printHeap
+Descripción: Método que imprime las Tiendas del Heap
+Entrada: void
+Salida: void
+*/
+void Heap::printHeap() {
+    for (int i = 0;i < this->size;i++) {
+        cout << "   ";
+        this->heap[i]->printTienda();
+        cout << endl;
+    }
 }
