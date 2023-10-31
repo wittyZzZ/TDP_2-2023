@@ -164,12 +164,12 @@ int Grafo::findTiendaMinArista() {
 }
 
 /*
-MSTPrim
-Descripción: Método que genera un grafo de recubrimiento minimo a partir de otro Grafo usando el algoritmo de PRIM
+MSTkruskal
+Descripción: Método que genera un grafo de recubrimiento minimo a partir de otro Grafo usando el algoritmo de Kruskal
 Entrada: void
 Salida: Grafo de recubrimiento mínimo (Grafo*)
 */
-Grafo* Grafo::MSTPrim() {
+Grafo* Grafo::MSTKruskal() {
     Grafo* mst = new Grafo(this->nTiendas);
     int visitados[this->nTiendas]; // 1 o 0
     int visitados2[this->nTiendas]; // Los numeros de las Tiendas visitadas

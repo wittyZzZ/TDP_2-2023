@@ -33,7 +33,7 @@ int main() {
             time(&start);
 
             // Se genera Grafo MST a partir del inicial
-            Grafo* mst = grafo->MSTPrim();
+            Grafo* mst = grafo->MSTKruskal();
 
             time(&end);
             timeTaken = double(end-start);

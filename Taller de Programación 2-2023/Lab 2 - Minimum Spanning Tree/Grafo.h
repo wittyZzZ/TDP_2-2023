@@ -41,7 +41,7 @@ class Grafo {
         // Otros Métodos
         bool readFile(string fileName);
         int findTiendaMinArista();
-        Grafo* MSTPrim();
+        Grafo* MSTKruskal();
         void printGrafo();
 };
 
