@@ -14,5 +14,7 @@ int main() {
     // Se imprime la Tienda
     tienda->printTienda();
 
+    delete tienda;
+
     return 0;
 }

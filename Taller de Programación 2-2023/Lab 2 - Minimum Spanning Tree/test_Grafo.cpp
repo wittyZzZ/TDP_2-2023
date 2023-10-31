@@ -15,5 +15,7 @@ int main() {
     cout << endl;
     grafo->printGrafo();
 
+    delete grafo;
+
     return 0;
 }

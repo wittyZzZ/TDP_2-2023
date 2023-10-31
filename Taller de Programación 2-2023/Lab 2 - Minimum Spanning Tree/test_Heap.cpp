@@ -28,6 +28,7 @@ int main() {
     t->printTienda();
 
     delete heap;
+    delete t;
 
     return 0;
 }
