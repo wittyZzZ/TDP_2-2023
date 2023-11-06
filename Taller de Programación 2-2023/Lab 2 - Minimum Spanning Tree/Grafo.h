@@ -16,7 +16,7 @@ using namespace std;
     Se usa una variación de la representación llamada "Listas de Adyacencia", pero en este caso usan "Heaps de Adyacencia".
     A cada Tienda le corresponde un Heap que contendrá a las Tiendas con quien se relaciona.
 
-    Esta clase se representa por: Número de tiendas (int) X Arreglo de punteros a Heap (Heap**)
+    Esta clase se representa por: Número de tiendas (int) X Costo Total del Grafo (int) X Arreglo de punteros a Heap (Heap**)
 
 */
 
@@ -24,7 +24,8 @@ class Grafo {
     private:
         // Atributos
         int nTiendas;
-        Heap **heapsAdyacencia;   
+        int costoTotal;
+        Heap **heapsAdyacencia;
     public:
         // Constructor
         Grafo();
@@ -34,9 +35,11 @@ class Grafo {
         // Métodos
         // Getters
         int getNTiendas();
+        int getCostoTotal();
         Heap** getHeaps();
         // Setters
         void setNTiendas(int newNTiendas);
+        void setCostoTotal(int newCostoTotal);
         void setHeaps(Heap** newHeaps);
         // Otros Métodos
         bool readFile(string fileName);

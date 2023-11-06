@@ -12,6 +12,7 @@ Salida: void
 */
 Grafo::Grafo() {
     this->nTiendas = 0;
+    this->costoTotal = -1;
 }
 
 /*
@@ -22,6 +23,7 @@ Salida: void
 */
 Grafo::Grafo(int nTiendas) {
     this->nTiendas = nTiendas;
+    this->costoTotal = -1;
     this->heapsAdyacencia = new Heap*[nTiendas];
     for (int i = 0;i < nTiendas;i++) {
         this->heapsAdyacencia[i] = new Heap(10);
@@ -59,6 +61,16 @@ int Grafo::getNTiendas() {
 }
 
 /*
+getCostoTotal
+Descripción: Método que retorna el costo total del Grafo
+Entrada: void
+Salida: Costo total (int)
+*/
+int Grafo::getCostoTotal() {
+    return this->costoTotal;
+}
+
+/*
 getHeaps
 Descripción: Método que retorna la lista de Heaps del Grafo
 Entrada: void
@@ -79,6 +91,16 @@ Salida: void
 */
 void Grafo::setNTiendas(int newNTiendas) {
     this->nTiendas = newNTiendas;
+}
+
+/*
+setCostoTotal
+Descripción: Método que modifica el costo total del Grafo
+Entrada: Nuevo costo total (int)
+Salida: void
+*/
+void Grafo::setCostoTotal(int newCostoTotal) {
+    this->costoTotal = newCostoTotal;
 }
 
 /*
@@ -126,11 +148,9 @@ bool Grafo::readFile(string fileName) {
         int j = 0;
         for (char caracter: linea) {
             if (caracter != ' ') {
-                if (j > i) {
-                    if (caracter-'0' > 0) {
-                        Tienda* newTienda = new Tienda(j,caracter-'0');
-                        this->heapsAdyacencia[i]->push(newTienda);
-                    }
+                if (caracter-'0' > 0) {
+                    Tienda* newTienda = new Tienda(j,caracter-'0');
+                    this->heapsAdyacencia[i]->push(newTienda);
                 }
                 j++;
             }
@@ -171,6 +191,7 @@ Salida: Grafo de recubrimiento mínimo (Grafo*)
 */
 Grafo* Grafo::MSTKruskal() {
     Grafo* mst = new Grafo(this->nTiendas);
+    int costoTotal = 0;
     int visitados[this->nTiendas]; // 1 o 0
     int visitados2[this->nTiendas]; // Los numeros de las Tiendas visitadas
     for (int i = 0;i < this->nTiendas;i++) {
@@ -182,6 +203,7 @@ Grafo* Grafo::MSTKruskal() {
     Tienda* x = new Tienda(posTiendaMin,temp->getCosto());
     mst->heapsAdyacencia[posTiendaMin]->push(temp);
     mst->heapsAdyacencia[temp->getId()]->push(x);
+    costoTotal += temp->getCosto();
     // Se setean las variables de control de visitados
     int nVisitados = 2; visitados[posTiendaMin] = 1; visitados[temp->getId()] = 1; 
     visitados2[0] = posTiendaMin; visitados2[1] = temp->getId();
@@ -209,14 +231,27 @@ Grafo* Grafo::MSTKruskal() {
                 }
             }
         }
-        temp = this->heapsAdyacencia[visitados2[posVisitadoMin]]->pop();
+        
+        bool found2 = false;
+
+        while (found2 == false) {
+            temp = this->heapsAdyacencia[visitados2[posVisitadoMin]]->pop();
+            if (visitados[temp->getId()] != 1) {
+                found2 = true;
+            } else {
+                delete temp;
+            }
+        }
+
         x = new Tienda(visitados2[posVisitadoMin],temp->getCosto());
+        costoTotal += temp->getCosto();
         mst->heapsAdyacencia[visitados2[posVisitadoMin]]->push(temp);
         mst->heapsAdyacencia[temp->getId()]->push(x);
         visitados2[nVisitados] = temp->getId();
         visitados[temp->getId()] = 1;
         nVisitados++;
     }
+    mst->setCostoTotal(costoTotal);
     return mst;
 }
 

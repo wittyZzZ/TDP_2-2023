@@ -29,6 +29,13 @@ int main() {
         existeArchivo = grafo->readFile(inputString);
 
         if (existeArchivo) {
+            cout << "##################################" << endl << endl;
+            cout<< "~~~~~~~~~~~~~~~~~~~"<<endl;
+            cout<< "Grafo Original:"<<endl;
+            cout<< "~~~~~~~~~~~~~~~~~~~"<<endl;
+            cout<<endl;
+            grafo->printGrafo();
+
             
             time(&start);
 
@@ -49,7 +56,10 @@ int main() {
                 cout<< "~~~~~~~~~~~~~~~~~~~"<<endl;
                 cout<<endl;
                 mst->printGrafo();
-                cout << "##################################" << endl;
+                cout<< "~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<endl;
+                cout << "Costo Total: " << mst->getCostoTotal() << endl;
+                cout<< "~~~~~~~~~~~~~~~~~~~~~~~~~~~"<< endl << endl;
+                cout << "##################################" << endl << endl;
             } else {
                 cout << "El Grafo no tiene solucion..." << endl;
             }
